@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            position: relative;
+            background: url('https://i.ibb.co/F31xJvS/IMG-20250127-115255.jpg') no-repeat center center/cover;
+            filter: brightness(0.6);
+            animation: changeBackground 60s infinite;
+        }
+        @keyframes changeBackground {
+            0%, 100% {
+                background-image: url('https://i.ibb.co/F31xJvS/IMG-20250127-115255.jpg');
+            }
+            25% {
+                background-image: url('https://i.ibb.co/2FB9WL3/IMG-20250128-132618.jpg');
+            }
+            50% {
+                background-image: url('https://i.ibb.co/Rj6tkGt/IMG-20250128-131858.jpg');
+            }
+            75% {
+                background-image: url('https://i.ibb.co/wNdmXj7/Screenshot-2025-01-28-13-14-51-873-com-parallax-wallpaper3d-wallpaperhd-wallpaper4k-livewallpaper.jpg');
+            }
+        }
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .star {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 18px;
+            animation: twinkle 2s infinite;
+            will-change: opacity;
+        }
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0.8;
+            }
+            50% {
+                opacity: 0.2;
+            }
+        }
+        .container {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+        }
+        h1 {
+            font-size: 3rem;
+            text-align: center;
+            color: pink;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+            animation: glow 2s infinite;
+        }
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+            }
+            50% {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 1);
+            }
+        }
+        .countdown {
+            font-size: 2rem;
+            margin-top: 20px;
+            color: white;
+        }
+        .message {
+            font-size: 1.5rem;
+            margin-top: 30px;
+            color: red;
+            font-family: 'Georgia', serif;
+        }
+        .corner-text {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 14px;
+            color: white;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <!-- متن گوشه سایت -->
+    <div class="corner-text">From a friend</div>
+
+    <!-- ستاره‌های درخشان -->
+    <div class="stars" id="stars"></div>
+
+    <!-- متن و شمارش معکوس -->
+    <div class="container">
+        <h1>
+            💫🫵 <br>
+            ℍ𝕒𝕡𝕡𝕪 𝕓𝕚𝕣𝕥𝕙𝕕𝕒𝕪 𝕥𝕠 𝕪𝕠𝕦 <br>
+            𝕊𝕒𝕪𝕒 <br>
+            🎂🎉
+        </h1>
+        <div class="countdown" id="countdown">Loading...</div>
+        <div class="message">Don't forget to visit the site on your birthday</div>
+
+        <!-- پخش‌کننده موزیک -->
+        <div id="musicPlayerContainer"></div>
+    </div>
+
+    <script>
+        // لیست لینک‌های Embed موزیک
+         const musicList = [
+    "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/k-boss-874632261/interstellar&auto_play=true",
+    "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/ziad-a-mahmoud/interstellar-main-theme-extra-extended-soundtrack-by-hans-zimmer&auto_play=true",
+    "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/toproduction/forrest-gump-soundtrack&auto_play=true",
+    "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/paulius-pisarskis/chess-type-beat&auto_play=true",
+    "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/user-454160924/electronight&auto_play=true"
+
+       ];
+
+        // انتخاب تصادفی موزیک و نمایش در صفحه
+        function playRandomMusic() {
+            const randomIndex = Math.floor(Math.random() * musicList.length);
+            const iframe = document.createElement("iframe");
+            iframe.src = musicList[randomIndex];
+            iframe.width = "100%";
+            iframe.height = "166";
+            iframe.scrolling = "no";
+            iframe.frameBorder = "no";
+            iframe.allow = "autoplay";
+            document.getElementById("musicPlayerContainer").innerHTML = "";
+            document.getElementById("musicPlayerContainer").appendChild(iframe);
+        }
+
+        // شروع پخش موزیک
+        playRandomMusic();
+
+        // شمارش معکوس تا تاریخ تولد
+        function updateCountdown() {
+            const birthday = new Date("2025-06-01T00:00:00");
+            const now = new Date();
+            const diff = birthday - now;
+
+            if (diff <= 0) {
+                document.getElementById("countdown").innerText = "Happy Birthday! 🎉";
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById("countdown").innerText =
+                `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // اضافه کردن ستاره‌ها
+        const starContainer = document.getElementById("stars");
+        const createStar = () => {
+            const star = document.createElement("div");
+            star.className = "star";
+            star.textContent = "✯";
+            star.style.top = Math.random() * 100 + "vh";
+            star.style.left = Math.random() * 100 + "vw";
+            star.style.animationDuration = Math.random() * 3 + 2 + "s";
+            starContainer.appendChild(star);
+
+            setTimeout(() => {
+                star.remove();
+            }, 5000);
+        };
+
+        setInterval(createStar, 100);
+    </script>
+</body>
+</html>
